@@ -15,11 +15,13 @@ bankDB = pd.read_csv(bankPath + bankFile)
 
 months = len(bankDB)
 
+print('Number of months: ' + str(months))
+
 #total Profit / loss
 
 totalProfit = bankDB['Profit/Losses'].sum()
 
-print(totalProfit)
+print('Total: $' + str(totalProfit))
 
 #average change
 
@@ -42,3 +44,25 @@ for i in range(len(bankDB)-1):
     avgChance = round(np.mean(changeList),2)
     if i == minChange - maxChange:
         date = numDB[i]
+
+avgChange = round(np.mean(changeList), 2)
+        
+print('Average change: $' + str(avgChange))
+
+#Greatest increase in profits
+
+changeList.insert(0, 0)
+
+bankDB['Change'] = changeList
+
+changeDB = bankDB[['Date', 'Change']].copy()
+
+maxIncrease = changeDB.loc[changeDB['Change'] == max(changeDB['Change'])]
+
+print('Greatest Increase in Profits: ' + str(maxIncrease['Date'].item()) + ' ($' + str(maxIncrease['Change'].item()) + ')')
+
+maxDecrease = changeDB.loc[changeDB['Change'] == min(changeDB['Change'])]
+
+print('Greatest Decrease in Profits: ' + str(maxDecrease['Date'].item()) + ' ($' + str(maxDecrease['Change'].item()) + ')')
+
+
